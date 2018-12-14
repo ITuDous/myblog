@@ -1,0 +1,12 @@
+<div class="paihang">
+    <h2 class="hometitle">点击排行</h2>
+    <ul>
+        {% for article in articles_rank %}
+
+            <li><b><a href="/articles/{{ article.id }}" target="_blank">{{ article.title }}</a></b>
+            <p><i><img src="../static/images/t02.jpg"></i>{{ article.abstract }}
+            </p>
+
+        {% endfor %}
+    </ul>
+</div>

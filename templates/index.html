@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block script %}
+
+{% endblock %}
+
+{% block content %}
+<div class="picshow">
+    <ul>
+        <li><a href="/"><i><img src="../static/images/spring.png"></i>
+                <div class="font">
+                    <h3>banner</h3>
+                </div>
+            </a></li>
+        <li><a href="/"><i><img src="../static/images/summer.png"></i>
+                <div class="font">
+                    <h3>banner</h3>
+                </div>
+            </a></li>
+        <li><a href="/"><i><img src="../static/images/fall.jpg"></i>
+                <div class="font">
+                    <h3>banner</h3>
+                </div>
+            </a></li>
+        <li><a href="/"><i><img src="../static/images/winter.jpg"></i>
+                <div class="font">
+                    <h3>banner</h3>
+                </div>
+            </a></li>
+    </ul>
+</div>
+<article>
+    <div class="blogs">
+        {% for article in articles %}
+        <li>
+            <span class="blogpic"><a href="/"><img src="../static/images/text02.jpg"></a></span>
+            <h3 class="blogtitle"><a href="/">{{ article.title }}</a></h3>
+            <div class="bloginfo">
+                <p>{{ article.abstract }}</p>
+            </div>
+            <div class="autor">
+                <span class="lm">
+
+                    {% for tag in article.tags.all %}
+
+                    <a href="/tags/{{ tag }}" title="{{ tag }}" target="_blank" class="classname">{{ tag }} ✦ </a>
+
+                    {% endfor %}
+
+                </span>
+                <span class="dtime">{{ article.created_time|date:"Y-m-d H:i:s" }}</span>
+                <span class="viewnum">浏览（{{ article.view }}）</span>
+                <span class="readmore"><a href="/articles/{{ article.id }}">阅读原文</a></span>
+            </div>
+        </li>
+        {% endfor %}
+        <li>
+            <div class="pagination">
+                <span class="disabled" title="首页"><a href="/">首页</a></span>
+
+                    {% if articles.has_previous %}
+                        <span class="disabled">
+                        <a href="?page={{ articles.previous_page_number }}">上一页</a>
+                        </span>
+                    {% endif %}
+
+                    {% for index in articles.paginator.page_range%}
+                        {% if index == articles.number %}
+                            <span class="current"><a href="?page={{ index }}">{{ index }}</a></span>
+                        {% else %}
+                             <span><a href="?page={{ index }}">{{ index }}</a></span>
+                        {% endif %}
+                    {% endfor %}
+                    {% if articles.has_next %}
+                        <span class="disabled">
+                        <a href="?page={{ articles.next_page_number }}">下一页</a>
+                        </span>
+                    {% endif %}
+                <span class="disabled" title="尾页"><a href="?page={{ articles.paginator.num_pages }}">尾页</a></span>
+             </div>
+        </li>
+    </div>
+    <div class="sidebar">
+        <div class="about">
+            <div class="avatar"><a href="/categories/about"><img src="../static/images/Lego-Simpsons1.jpg" alt=""></a>
+            </div>
+            <p class="abname"> wq</p>
+            <p class="abposition">python</p>
+            <div class="abtext">python</div>
+        </div>
+        <div class="search">
+            <form action="/searches/" method="post" name="searchform" id="searchform">
+                <input name="keyword" id="keyword" class="input_text" value="请输入关键字" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text">
+                <input name="Submit" class="input_submit" value="搜索" type="submit">
+            </form>
+        </div>
+        <div class="cloud">
+            <h2 class="hometitle">标签云</h2>
+            <ul>
+
+                {% for tag in tags %}
+                    <a href="/tags/{{ tag.name }}">{{ tag.name }}</a>
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+        {% include 'rank.html' %}
+
+        {% include 'recommend.html' %}
+
+        <div class="links">
+            <h2 class="hometitle">友情链接</h2>
+            <ul>
+                <li><a href="/" title="个人博客">个人博客</a></li>
+                <li><a href="/" title="个人博客">个人博客</a></li>
+                <li><a href="/" title="个人博客">个人博客</a></li>
+            </ul>
+        </div>
+
+        {% include 'wechat.html' %}
+
+    </div>
+</article>
+<div class="blank"></div>
+
+{% endblock %}

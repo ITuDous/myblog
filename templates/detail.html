@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block css %}
+    <link href="{% static 'css/markdown.css' %}" rel="stylesheet">
+    <link href="{% static 'css/code.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block script %}
+    <script src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+    <script type="text/javascript">
+        jQuery.noConflict();
+        jQuery(function () {
+            var elm = jQuery('#left_flow2');
+            var startPos = jQuery(elm).offset().top;
+            jQuery.event.add(window, "scroll", function () {
+                var p = jQuery(window).scrollTop();
+                jQuery(elm).css('position', ((p) > startPos) ? 'fixed' : '');
+
+                jQuery(elm).css('top', ((p) > startPos) ? '0' : '');
+            });
+        });
+    </script>
+{% endblock %}
+
+
+{% block content %}
+    <article>
+        <h1 class="t_nav"><span></span>
+            <a href="/" class="n1">网站首页</a>
+        </h1>
+        <div class="infos">
+            <div class="newsview">
+                <h3 class="news_title">{{ article_title }}</h3>
+                <div class="news_author"><span class="au01"><a href="mailto:771316531@qq.com">wq</a></span><span class="au02">{{ article_created_time|date:"Y-m-d H:i:s" }}</span>
+                    <span class="au03">共<b>{{ article_view }}</b>人围观</span>
+                </div>
+                <div class="tags">
+                    {% for tag in article_tag.all %}
+                          <a href="/tags/{{ tag.name }}" target="_blank">{{ tag.name }}</a>
+                    {% endfor %}
+                </div>
+                <div class="news_about"><strong>简介</strong>{{ article_abstact }}
+                </div>
+
+                <div class="markdown-body">
+                    {{ article_content|safe }}
+                </div>
+
+            </div>
+            <div class="share"></div>
+            <div class="nextinfo">
+                <p>上一篇：<a href="/articles/{{ id.previous }}">12321</a></p>
+                <p>下一篇：<a href="/articles/{{ id.next }}">返回列表</a></p>
+            </div>
+            <div class="news_pl">
+                <h2>文章评论</h2>
+
+                {% include 'comment.html' %}
+
+                <ul>
+                    <div class="gbko"></div>
+                </ul>
+            </div>
+        </div>
+        <div class="sidebar">
+            <div class="search">
+                <form action="/searches/" method="post" name="searchform" id="searchform">
+                <input name="keyword" id="keyword" class="input_text" value="请输入关键字" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text">
+                <input name="Submit" class="input_submit" value="搜索" type="submit">
+            </form>
+            </div>
+
+
+            {% include 'navigation.html' %}
+
+            {% include 'rank.html' %}
+
+            <div class="cloud">
+                <h2 class="hometitle">标签云</h2>
+                <ul>
+
+                    {% for tag in tags %}
+                        <a href="/tags/{{ tag.name }}">{{ tag.name }}</a>
+                    {% endfor %}
+
+                </ul>
+            </div>
+
+            {% include 'recommend.html' %}
+
+            {% include 'wechat.html' %}
+
+{#            <div class="ad" id="left_flow2"><img src="../../blog/apps/news/static/blog/images/ad.jpg"></div>#}
+        </div>
+    </article>
+{% endblock %}
+

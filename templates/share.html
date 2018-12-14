@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <article>
+        <h1 class="t_nav"><span>乐人之乐,人亦乐其乐。 </span><a href="/" class="n1">网站首页</a><a href="#" class="n2">{{ categories.name }}</a>
+        </h1>
+        <div class="blogs">
+            {% for article in articles %}
+                <li>
+                    <span class="blogpic"><a href="/static/images/text02.jpg"></a></span>
+                    <h3 class="blogtitle"><a href="/">{{ article.title }}</a></h3>
+                    <div class="bloginfo">
+                        <p>{{ article.abstract }}</p>
+                    </div>
+                    <div class="autor">
+                <span class="lm">
+
+                    {% for tag in article.tags.all %}
+                        <a href="/" title="{{ tag }}" target="_blank" class="classname">{{ tag }} ✦ </a>
+                    {% endfor %}
+
+                </span>
+                        <span class="dtime">{{ article.created_time|date:"Y-m-j H:i:s" }}</span>
+                        <span class="viewnum">浏览（{{ article.view }}）</span>
+                        <span class="readmore"><a href="/articles/{{ article.id }}">阅读原文</a></span>
+                    </div>
+                </li>
+            {% endfor %}
+            <li>
+                <div class="pagination">
+                    <span class="disabled" title="首页"><a href="/">首页</a></span>
+
+                    {% if articles.has_previous %}
+                        <span class="disabled">
+                        <a href="?page={{ articles.previous_page_number }}">上一页</a>
+                        </span>
+                    {% endif %}
+
+                    {% for index in articles.paginator.page_range %}
+                        {% if index == articles.number %}
+                            <span class="current"><a href="?page={{ index }}">{{ index }}</a></span>
+                        {% else %}
+                            <span><a href="?page={{ index }}">{{ index }}</a></span>
+                        {% endif %}
+                    {% endfor %}
+                    {% if articles.has_next %}
+                        <span class="disabled">
+                        <a href="?page={{ articles.next_page_number }}">下一页</a>
+                        </span>
+                    {% endif %}
+                    <span class="disabled" title="尾页"><a href="?page={{ articles.paginator.num_pages }}">尾页</a></span>
+                </div>
+            </li>
+        </div>
+
+        <div class="sidebar">
+            <div class="search">
+                <form action="/searches/" method="post" name="searchform" id="searchform">
+                    <input name="keyword" id="keyword" class="input_text" value="请输入关键字"
+                           style="color: rgb(153, 153, 153);"
+                           onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}"
+                           onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text">
+                    <input name="Submit" class="input_submit" value="搜索" type="submit">
+                </form>
+            </div>
+
+
+            {% include 'navigation.html' %}
+
+            {% include 'rank.html' %}
+
+            <div class="cloud">
+                <h2 class="hometitle">标签云</h2>
+                <ul>
+
+                    {% for tag in tags %}
+                        <a href="/tags/{{ tag.name }}">{{ tag.name }}</a>
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+            {% include 'recommend.html' %}
+
+            {% include 'wechat.html' %}
+
+        </div>
+    </article>
+{% endblock %}

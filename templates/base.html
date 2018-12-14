@@ -1,0 +1,79 @@
+{% load staticfiles %}
+
+
+<!Doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>IShare</title>
+    <meta name="keywords" content="IShare"/>
+    <meta name="description" content="IShare"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+    <link href="{% static 'css/index.css' %}" rel="stylesheet">
+    <link href="{% static 'css/m.css' %}" rel="stylesheet">
+    <script src="../static/js/jquery-1.12.4.min.js"></script>
+
+    {% block css %}
+
+    {% endblock %}
+
+    {% block script %}
+
+    {% endblock %}
+    <!--[if lt IE 9]>
+    <script src="../../static/blog/js/modernizr.js'"></script>
+    <![endif]-->
+
+    <script>
+        window.onload = function () {
+            var oH2 = document.getElementsByTagName("h2")[0];
+            var oUl = document.getElementsByTagName("ul")[0];
+            oH2.onclick = function () {
+                var style = oUl.style;
+                style.display = style.display == "block" ? "none" : "block";
+                oH2.className = style.display == "block" ? "open" : ""
+            }
+        }
+    </script>
+</head>
+<body>
+<header>
+    <div class="tophead">
+        <div class="logo"><a href="/">IShare</a></div>
+        <div id="mnav">
+            <h2><span class="navicon"></span></h2>
+            <ul>
+                <li><a href="/">网站首页</a></li>
+                <li><a href="/categories/share">分享</a></li>
+                <li><a href="/categories/study">学无涯</a></li>
+                <li><a href="/categories/life">慢生活</a></li>
+                <li><a href="/categories/message_board">留言</a></li>
+                <li><a href="/categories/about">关于</a></li>
+            </ul>
+        </div>
+        <nav class="topnav" id="topnav">
+            <ul>
+                <li><a href="/">网站首页</a></li>
+                <li><a href="/categories/share">分享</a></li>
+                <li><a href="/categories/study">学无涯</a></li>
+                <li><a href="/categories/life">慢生活</a></li>
+                <li><a href="/categories/message_board">留言</a></li>
+                <li><a href="/categories/about">关于</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+{% block content %}
+
+{% endblock %}
+
+
+<script src="../static/js/nav.js"></script>
+<footer>
+    <p>Design by <a href="/">个人博客</a> <a href="/"></a></p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<style>
+
+    .bootstrap-frm {
+        max-width: 500px;
+        background: #FFF;
+        padding: 40px 0px 0px 0px;
+        font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+        color: #888;
+        text-shadow: 1px 1px 1px #FFF;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+    }
+
+    .bootstrap-frm h1 {
+        font: 25px "Helvetica Neue", Helvetica, Arial, sans-serif;
+        padding: 0px 0px 10px 40px;
+        display: block;
+        border-bottom: 1px solid #DADADA;
+        margin: -10px -30px 30px -30px;
+        color: #888;
+    }
+
+    .bootstrap-frm h1 > span {
+        display: block;
+        font-size: 11px;
+    }
+
+    .bootstrap-frm label {
+        display: block;
+        margin: 0px 0px 5px;
+    }
+
+    .bootstrap-frm label > span {
+        float: left;
+        width: 20%;
+        text-align: right;
+        padding-right: 10px;
+        margin-top: 10px;
+        color: #333;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: bold;
+    }
+
+    .bootstrap-frm input[type="text"], .bootstrap-frm input[type="email"], .bootstrap-frm textarea {
+        border: 1px solid #CCC;
+        color: #888;
+        height: 20px;
+        line-height: 15px;
+        margin-bottom: 16px;
+        margin-right: 6px;
+        margin-top: 2px;
+        outline: 0 none;
+        padding: 5px 0px 5px 5px;
+        width: 70%;
+        border-radius: 4px;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    }
+
+    .bootstrap-frm textarea {
+        height: 100px;
+        padding: 5px 0px 0px 5px;
+        width: 70%;
+    }
+
+    .bootstrap-frm .button {
+        background: #FFF;
+        border: 1px solid #CCC;
+        padding: 10px 25px 10px 25px;
+        color: #333;
+        border-radius: 4px;
+    }
+
+    .bootstrap-frm .button:hover {
+        color: #333;
+        background-color: #EBEBEB;
+        border-color: #ADADAD;
+    }
+
+</style>
+
+<ul class="comment-list list-unstyled">
+  {% for comment in comment_list %}
+  <li class="comment-item">
+    <span class="nickname">{{ comment.name }}</span>
+    <time class="submit-date">{{ comment.created_time }}</time>
+    <div class="text">
+      {{ comment.content }}
+    </div>
+  </li>
+  {% empty %}
+  暂无评论
+  {% endfor %}
+</ul>
+
+
+<form action="{% url 'comment:article_comment' id %}" method="post" class="bootstrap-frm" data-articleid = "{{ id }}">
+    <label for="{{ form.name.id_for_label }}">
+        <span>昵称 :</span>
+{#        <input id="name" type="text" name="name" placeholder="匿名" value=""/>#}
+              {{ form.name }}
+      {{ form.name.errors }}
+    </label>
+
+    <label for="{{ form.email.id_for_label }}">
+        <span>邮箱 :</span>
+{#        <input id="email" type="email" name="email" placeholder="邮箱"/>#}
+              {{ form.email }}
+      {{ form.email.errors }}
+    </label>
+
+    <label for="{{ form.content.id_for_label }}">
+        <span>评论 :</span>
+{#        <textarea id="comment" name="comment" placeholder="请输入评论"></textarea>#}
+              {{ form.content }}
+      {{ form.content.errors }}
+    </label>
+    <label>
+        <span>&nbsp;</span>
+        <input type="submit" class="button" value="评论"/>
+    </label>
+    {% csrf_token %}
+</form>
+
+
+
+
