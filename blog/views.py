@@ -9,12 +9,6 @@ from comment.forms import CommentForm
 from .models import Article, Category, Tag
 
 
-# class IndexView(View):
-#     """此为网站迁移展示"""
-#     def get(self, request):
-#         return render(request, 'prodpage/index.html')
-
-
 def pagintor_reuse(page_num, paginator):
     # 分页信息
 
